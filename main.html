@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="shortcut icon" href="./Icons/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./Style/style.css" /> -->
+    <title>Chat</title>
+    <style>
+      body {
+        padding: 10px;
+        background-color: #b0cfb0;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 35px;
+        font-family: monospace;
+      }
+
+      .cont {
+        margin: auto;
+        width: 500px;
+        background-color: rgba(255, 255, 255, 0.789);
+        padding: 20px;
+        padding-top: 60px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+      }
+
+      label {
+        display: inline-block;
+        width: 20%;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      input {
+        width: 60%;
+        padding: 5px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+      }
+
+      .row {
+        margin-bottom: 40px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: white;
+        border: none;
+        border-radius: 50px;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        -ms-border-radius: 50px;
+        -o-border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-block;
+        width: 80%;
+      }
+
+      button:hover {
+        background-color: rgba(101, 212, 207, 0.571);
+        color: #ffff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Chaty chat 💚</h1>
+    <div class="cont">
+      <div class="row">
+        <label for="name">User Name : </label>
+        <input type="text" name="name" id="name" required />
+      </div>
+      <div class="row" style="display: flex; justify-content: center">
+        <button id="add">Enter chat</button>
+      </div>
+    </div>
+    <script>
+      document.getElementById("add").onclick = function () {
+        let name = document.getElementById("name").value;
+        sessionStorage.setItem("name", name);
+        // localStorage.setItem("name", name);
+        location.assign("http://127.0.0.1:5500/index.html");
+      };
+    </script>
+  </body>
+</html>
