@@ -19,6 +19,9 @@ const io = new Server(server, {
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
+app.get("/main", (req, res) => {
+  res.sendFile(join(__dirname, "main.html"));
+});
 
 io.on("connection", (socket) => {
   console.log("a user connected with socket id " + socket.id);
