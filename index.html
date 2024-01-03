@@ -1,173 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Socket.IO chat</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="shortcut icon" href="./Icons/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./Style/style.css" /> -->
+    <title>Chat</title>
     <style>
       body {
-        margin: 0;
-        padding-bottom: 3rem;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
-      }
-      #form {
-        background: #b0cfb0;
-        padding: 0.25rem;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        height: 3rem;
-        box-sizing: border-box;
-        backdrop-filter: blur(10px);
-      }
-      #input {
-        border: none;
-        padding: 0 1rem;
-        flex-grow: 1;
-        border-radius: 10px;
-        margin: 0.25rem;
-      }
-      #input:focus {
-        outline: none;
-      }
-      #form > button {
-        background: #fff;
-        border: none;
-        padding: 0 1rem;
-        margin: 0.25rem;
-        border-radius: 3px;
-        outline: none;
-        color: #b0cfb0;
-      }
-      #messages {
-        list-style-type: none;
-        margin: 0;
-        padding: 20px;
-      }
-      #messages > li {
-        position: relative;
-      }
-      li > p {
-        padding: 0.5rem 1rem;
-        width: fit-content;
-        border-radius: 10px;
-        margin: 2px;
-        color: white;
-        display: inline-block;
-      }
-      p > span {
-        color: rgba(0, 0, 0, 0.838);
-        font-size: 12px;
-        display: block;
-      }
-      .other-msg {
-        background-color: #b0cfb0;
-        /* transform: translateX(); */
-      }
-      .my-msg {
-        background-color: rgb(234, 234, 234);
-      }
-      .otherli {
-        display: flex;
-        justify-content: right;
-      }
-      header {
         padding: 10px;
         background-color: #b0cfb0;
-        text-align: center;
       }
-      header > span {
+
+      h1 {
         text-align: center;
         font-size: 35px;
         font-family: monospace;
       }
-      .loading {
-        width: 80px;
-        height: 80px;
+
+      .cont {
+        margin: auto;
+        width: 500px;
+        background-color: rgba(255, 255, 255, 0.789);
+        padding: 20px;
+        padding-top: 60px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
       }
-      #typing-status {
-        display: flex;
-        justify-content: center;
+
+      label {
+        display: inline-block;
+        width: 20%;
+        font-size: 18px;
+        font-weight: 600;
       }
-      .hide {
-        display: none !important;
+
+      input {
+        width: 60%;
+        padding: 5px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+      }
+
+      .row {
+        margin-bottom: 40px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: white;
+        border: none;
+        border-radius: 50px;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        -ms-border-radius: 50px;
+        -o-border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-block;
+        width: 80%;
+      }
+
+      button:hover {
+        background-color: rgba(101, 212, 207, 0.571);
+        color: #ffff;
       }
     </style>
   </head>
   <body>
-    <header>
-      <span>Chaty Group 💚</span>
-    </header>
-    <ul id="messages"></ul>
-    <p id="typing-status" class="hide">
-      <img src="./loading.gif" class="loading" />
-    </p>
-
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
-    <!-- Socket Clinte Library -->
-    <!-- <script src="/socket.io/socket.io.js"></script> -->
-    <script
-      src="https://cdn.socket.io/4.7.2/socket.io.min.js"
-      integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
-      crossorigin="anonymous"
-    ></script>
+    <h1>Chaty chat 💚</h1>
+    <div class="cont">
+      <div class="row">
+        <label for="name">User Name : </label>
+        <input type="text" name="name" id="name" required />
+      </div>
+      <div class="row" style="display: flex; justify-content: center">
+        <button id="add">Enter chat</button>
+      </div>
+    </div>
     <script>
-      const socket = io("http://localhost:7000");
-
-      const form = document.getElementById("form");
-      const input = document.getElementById("input");
-      const typingStatus = document.getElementById("typing-status");
-
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (input.value) {
-          socket.emit("message", {
-            value: input.value,
-            id: socket.id,
-            name: sessionStorage.getItem("name"),
-          });
-          input.value = "";
-        }
-      });
-
-      socket.on("broadcast_message", (msg) => {
-        const item = document.createElement("li");
-
-        item.innerHTML = `
-        <p>
-          <span>${msg.name}</span>
-          ${msg.value}
-          </p>
-        `;
-
-        if (msg.id === socket.id) {
-          item.firstElementChild.classList.add("my-msg");
-        } else {
-          item.classList.add("otherli");
-          item.firstElementChild.classList.add("other-msg");
-        }
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-
-      input.addEventListener("keydown", () => {
-        socket.emit("typing");
-      });
-      input.addEventListener("keyup", () => {
-        socket.emit("stop_typing");
-      });
-      socket.on("show_typing_status", () => {
-        typingStatus.classList.remove("hide");
-      });
-      socket.on("clear_typing", () => {
-        setTimeout(() => {
-          typingStatus.classList.add("hide");
-        }, 2000);
-      });
+      document.getElementById("add").onclick = function () {
+        let name = document.getElementById("name").value;
+        sessionStorage.setItem("name", name);
+        // localStorage.setItem("name", name);
+        location.assign("http://localhost:10000/main.html");
+      };
     </script>
   </body>
 </html>
