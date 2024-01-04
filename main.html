@@ -126,6 +126,7 @@
             value: input.value,
             id: socket.id,
             name: sessionStorage.getItem("name"),
+            color: sessionStorage.getItem("color"),
           });
           input.value = "";
         }
@@ -145,8 +146,7 @@
           item.firstElementChild.classList.add("my-msg");
         } else {
           item.classList.add("otherli");
-          item.firstElementChild.style.backgroundColor =
-            sessionStorage.getItem("color");
+          item.firstElementChild.style.backgroundColor = msg.color;
         }
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
