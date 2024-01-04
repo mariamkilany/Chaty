@@ -63,7 +63,7 @@
         display: block;
       }
       .other-msg {
-        background-color: #b0cfb0;
+        /* background-color: #b0cfb0; */
         /* transform: translateX(); */
       }
       .my-msg {
@@ -145,7 +145,8 @@
           item.firstElementChild.classList.add("my-msg");
         } else {
           item.classList.add("otherli");
-          item.firstElementChild.classList.add("other-msg");
+          item.firstElementChild.style.backgroundColor =
+            sessionStorage.getItem("color");
         }
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);

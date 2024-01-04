@@ -73,6 +73,10 @@
         <label for="name">User Name : </label>
         <input type="text" name="name" id="name" required />
       </div>
+      <div class="row">
+        <label for="name">Your color : </label>
+        <input type="color" name="color" id="color" required />
+      </div>
       <div class="row" style="display: flex; justify-content: center">
         <button id="add">Enter chat</button>
       </div>
@@ -80,7 +84,9 @@
     <script>
       document.getElementById("add").onclick = function () {
         let name = document.getElementById("name").value;
+        let color = document.getElementById("color").value;
         sessionStorage.setItem("name", name);
+        sessionStorage.setItem("color", color);
         // localStorage.setItem("name", name);
         location.assign("main");
       };
