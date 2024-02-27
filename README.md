@@ -1,4 +1,4 @@
-# MashiniV2
+# Chaty
 
   Chat application using
 
